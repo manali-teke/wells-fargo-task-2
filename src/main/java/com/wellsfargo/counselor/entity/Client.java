@@ -1,21 +1,22 @@
-package com.wellsfargo.counselor.entity;
+package  com.wellsfargo.counselor.entity;
 
-import jakarta.persistence.*;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-
-import java.util.List;
+import jakarta.persistence.*;
 
 @Entity
-public class Advisor {
-
+public class Client{
     @Id
-    @GeneratedValue()
-    private long advisorId;
+    @GeneratedValue
+    private long clientId;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "financialAdvisor")
+    @ManyToOne
+    @JoinColumn(name = "advisorId")
+    private Advisor financialAdvisor;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "Client")
 
     @Column(nullable = false)
     private String firstName;
@@ -32,11 +33,10 @@ public class Advisor {
     @Column(nullable = false)
     private String email;
 
-    protected Advisor() {
+    protected Client() { }
 
-    }
-
-    public Advisor(String firstName, String lastName, String address, String phone, String email) {
+    public Client(Advisor financialAdvisor, String firstName, String lastName, String address, String phone, String email) {
+        this.financialAdvisor = financialAdvisor;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -44,15 +44,12 @@ public class Advisor {
         this.email = email;
     }
 
-    public Long getAdvisorId() {
-        return advisorId;
-    }
-
-    public String getFirstName() {
+    public Long getClientID(){
+        return clientId;}
+    public String getFirstName(){
         return firstName;
     }
-
-    public void setFirstName(String firstName) {
+    public void setFirstName(){
         this.firstName = firstName;
     }
 
@@ -87,4 +84,15 @@ public class Advisor {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public Advisor getAdvisor(){
+        return financialAdvisor;
+    }
+
+    public void setAdvisor(Advisor financialAdvisor){
+        this.financialAdvisor = financialAdvisor;
+    }
+
+
+
 }
